@@ -7,6 +7,9 @@ import Comments from '../../Components/Comments'
 import ResponsivePlayer from '../../Components/ResponsivePlayer'
 import Spinner from '../../Components/Spinner'
 import Context from '../../Context/Context'
+import Zoom from 'react-reveal/Zoom';
+import Bounce from 'react-reveal/Bounce';
+
 
 export default function VideoId(props) {
     const router = useRouter()
@@ -28,17 +31,18 @@ export default function VideoId(props) {
             
             <section className="text-gray-600 body-font">
                 <div className="container my-10 mx-auto flex   items-center justify-center flex-col">
+                    <Bounce>
                     <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900 text-center">{EachVideo.data.title}</h1>
+                    </Bounce>
+                    <Zoom>
                     <div className=' my-10 '>
                     <ResponsivePlayer url={EachVideo.data.url} />
                     </div>
+                    </Zoom>
                     <div className="text-center lg:w-2/3 w-full">
                         
-                        <p className="mb-8 leading-relaxed">Meggings kinfolk echo park stumptown DIY, kale chips beard jianbing tousled. Chambray dreamcatcher trust fund, kitsch vice godard disrupt ramps hexagon mustache umami snackwave tilde chillwave ugh. Pour-over meditation PBR&B pickled ennui celiac mlkshk freegan photo booth af fingerstache pitchfork.</p>
-                        <div className="flex justify-center">
-                            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
-                            <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Button</button>
-                        </div>
+                        
+                        
                     </div>
                 </div>
             </section>

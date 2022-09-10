@@ -19,7 +19,8 @@ import { off } from "process";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
 import ScaleLoader from 'react-spinners/ScaleLoader'
-
+import Zoom from 'react-reveal/Zoom';
+import Bounce from 'react-reveal/Bounce';
 
 
 
@@ -38,18 +39,18 @@ import ScaleLoader from 'react-spinners/ScaleLoader'
 
 
 export default function Comments(props) {
-	const {setIsOpen,setIsOpen1,IsOpen1,modalIsOpen} = useContext(context)
+	const { setIsOpen, setIsOpen1, IsOpen1, modalIsOpen } = useContext(context)
 	const { user } = useContext(context);
 	const [UserComment, setUserComment] = useState(null);
 	const [parent, setparent] = useState(null);
 	const [typedcomment, settypedcomment] = useState(null);
 	const [commentid, setcommentid] = useState(null);
-	
+
 	const [updatedvalue, setupdatedvalue] = useState(null);
 
 
 
-	const { mutate, isLoading, isFetching,isError } = useAddComment();
+	const { mutate, isLoading, isFetching, isError } = useAddComment();
 	const test1 = useUpdateComment();
 	const test = useDeleteComment();
 
@@ -61,17 +62,17 @@ export default function Comments(props) {
 	};
 
 
-	
+
 	const onDeleteComment = (values) => {
 		test.mutate(values);
-		
-		
+
+
 	};
 
 	const onUpdateComment = (values) => {
 		test1.mutate(values);
-		
-		
+
+
 	};
 
 
@@ -83,7 +84,7 @@ export default function Comments(props) {
 		return fetchAllComments(router.query.VideoId);
 	});
 
-	
+
 
 
 
@@ -139,7 +140,7 @@ export default function Comments(props) {
 
 
 
-	
+
 
 
 
@@ -185,7 +186,6 @@ export default function Comments(props) {
 
 
 
-	
 
 
 
@@ -195,9 +195,10 @@ export default function Comments(props) {
 
 
 
-	
-	
-	
+
+
+
+
 
 
 
@@ -212,7 +213,7 @@ export default function Comments(props) {
 
 
 	return (
-		<div className="ring-8 ring-opacity-60 ring-red-600 p-2 bg-gradient-to-r text-white from-violet-600 to-rose-600 ">
+		<div className="ring-8 ring-opacity-60 ring-red-600 p-2 bg-gradient-to-r text-white from-violet-600 to-emerald-600 ">
 			<h1 className="text-center my-5 font-bold lg:text-3xl text-xl">
 				Add Your Comment
 			</h1>
@@ -226,7 +227,7 @@ export default function Comments(props) {
 						type="text"
 					/>
 					<button
-					disabled={!user}
+						disabled={!user || isLoading}
 						onClick={() => {
 							onSubmit({
 								commentelement: {
@@ -239,14 +240,14 @@ export default function Comments(props) {
 						}}
 						className="border-2  mx-2 px-2 bg-black rounded-md invert hover:invert-0 transition-all fade-in-out focus:ring-4 focus:ring-opacity-50 focus:ring-white border-white hover:border-white"
 					>
-						{user?(isLoading || isFetching)?(
+						{user ? (isLoading || isFetching) ? (
 							<div className="mx-auto flex justify-center">
-							<ScaleLoader color={"white"} size={20} />
+								<ScaleLoader color={"white"} size={20} />
 							</div>
-						):(
-						<IoSend />
-						):"Login To Comment"}
-						{}
+						) : (
+							<IoSend />
+						) : "Login To Comment"}
+						{ }
 					</button>
 				</div>
 			</div>
@@ -263,21 +264,23 @@ export default function Comments(props) {
 						<hr />
 						<div
 							id="comments"
-							className="grid grid-cols-[40px_auto_100px] my-3"
+							className="md:grid grid-cols-[40px_auto_100px] my-3"
 						>
+							<Zoom>
 							<div
 								id="user-logo"
-								className="border-2 border-black pb-2 px-3 rounded-full break-all   bg-orange-500 text-white w-fit h-fit"
+								className={`border-2 border-black pb-2 px-3 rounded-full break-all   bg-orange-500 text-white w-fit h-fit`}
 							>
-								p
+								{comment.user.slice(0,1)}
 							</div>
-
+							</Zoom>
 							<div id="user-message and time" className="break-all  p-1 ">
-								<div id="users comment" className="break-all">
+								<div id="users comment" className="break-all text-xs md:text-sm">
 									{comment.parent ? (
+										<Zoom>
 										<div className="mb-2 ">
 											<span className="font-bold">{comment.user}</span>{" "}
-											<span className="font-medium">Gave An Reply To</span>{" "}
+											<span className="md:font-medium">Gave An Reply To</span>{" "}
 											<span className="font-bold">
 												{comment.parent_name} On{" "}
 											</span>
@@ -285,22 +288,28 @@ export default function Comments(props) {
 												{comment.parent_comment}
 											</span>
 										</div>
+										</Zoom>
 									) : (
+										<Zoom>
 										<div className="mb-2">
 											<b>{comment.user} said</b>
 										</div>
+										</Zoom>
 									)}
-
-									<span className="break-all text-xl">
+									<Zoom>
+									<span className="break-all text-md md:text-lg">
 										{" "}
 										{"           "}
 										{comment.comment}
 									</span>
+									</Zoom>
 								</div>
 								<div id="time and date" className="my-2">
-									<b>
+								<Zoom>
+									<div className="font-medium md:font-bold text-xs md:text-sm">
 										On {comment.datestamp} At {comment.timestamp}
-									</b>
+									</div>
+									</Zoom>
 								</div>
 							</div>
 							<Modal
@@ -323,6 +332,7 @@ export default function Comments(props) {
 										Are You Sure You Would Like To Delete This Comment
 									</h1>
 									<button
+										disabled={test.isLoading}
 										onClick={() => {
 											onDeleteComment({
 												id: commentid,
@@ -331,8 +341,8 @@ export default function Comments(props) {
 										}}
 										className="bg-black p-2 rounded-md text-white my-2 focus:ring-4 focus:ring-opacity-50 focus:ring-black transition-all fade-in-out"
 									>
-										{(test.isLoading)?(<ScaleLoader color={"white"}/>):("Delete")}
-										
+										{(test.isLoading) ? (<ScaleLoader color={"white"} />) : ("Delete")}
+
 									</button>
 								</div>
 							</Modal>
@@ -345,6 +355,7 @@ export default function Comments(props) {
 							>
 								<div>
 									<button
+										
 										className="mb-5"
 										onClick={() => {
 											setIsOpen1(false);
@@ -363,6 +374,7 @@ export default function Comments(props) {
 										}}
 									/>
 									<button
+										disabled={test1.isLoading}
 										className="p-2 bg-black text-white my-2 rounded-md"
 										onClick={() => {
 											onUpdateComment({
@@ -372,7 +384,7 @@ export default function Comments(props) {
 											});
 										}}
 									>
-										{(test1.isLoading)?(<ScaleLoader className="text-white" color={"white"}/>):("Update")}
+										{(test1.isLoading) ? (<ScaleLoader className="text-white" color={"white"} />) : ("Update")}
 									</button>
 								</div>
 							</Modal>
@@ -385,12 +397,13 @@ export default function Comments(props) {
 
 							{user ? (
 								<>
-									<div id="comment-change-options" className=" mx-2  p-1">
+									<div id="comment-change-options" className="m-2 p-1">
 										{comment.user !== user.username ? (
 											<>
+											<Zoom>
 												<Tippy content="Tag">
-													<div className="">
-														<div id="abovebtn">
+													<div className="w-fit h-fit my-auto">
+														<div id="abovebtn" className="my-auto">
 															<button
 																id={`tagbtn${comment.id}`}
 																onClick={() => {
@@ -401,45 +414,52 @@ export default function Comments(props) {
 																	setparent(comment.id);
 																	ChangeTagColour(comment.id);
 																}}
-																className="mx-[23px] my-2 cursor-pointer border-2 border-white p-1 tagbtn"
+																className=" my-2 cursor-pointer border-2 border-white p-1 tagbtn"
 															>
 																<AiFillTags />
 															</button>
 														</div>
 													</div>
 												</Tippy>
+												</Zoom>
 											</>
 										) : (
 											<div className="">
+												<Zoom>
 												<div className="flex  my-2">
+												
 													<Tippy content="Delete">
-														<div
+														<button
+															
 															onClick={() => {
 																setIsOpen(true);
 																setcommentid(comment.id);
 															}}
-															className=" mx-auto border-2 border-white p-1 cursor-pointer"
+															className="  border-2 border-white p-1 cursor-pointer"
 														>
 															<AiFillDelete />
-														</div>
+														</button>
 													</Tippy>
 													<p className="mx-1">Delete</p>
 												</div>
-
+												</Zoom>
+												<Zoom>
 												<div className="flex my-2">
 													<Tippy content="Update">
-														<div
+														<button
+															
 															onClick={() => {
 																setIsOpen1(true);
 																setcommentid(comment.id);
 															}}
-															className="mx-auto border-2 border-black invert p-1  cursor-pointer"
+															className=" border-2 border-black invert p-1  cursor-pointer"
 														>
 															<GrUpdate className="" />
-														</div>
+														</button>
 													</Tippy>
 													<p className="mx-1">Update</p>
 												</div>
+												</Zoom>
 											</div>
 										)}
 									</div>
@@ -447,30 +467,49 @@ export default function Comments(props) {
 							) : (
 								<>
 									<div id="comment-change-options" className=" mx-2  p-1">
-										<div className="grid grid-cols-2">
-											<Tippy content="Login To Delete">
-												<div className=" mx-auto border-2 border-white p-1 cursor-pointer">
-													<AiFillDelete />
-												</div>
-											</Tippy>
-											<Tippy content="Login To Update">
-												<div className="mx-auto border-2 border-black invert p-1  cursor-pointer">
-													<GrUpdate className="" />
-												</div>
-											</Tippy>
-										</div>
-										<Tippy content="Login To Tag">
-											<div className="">
-												<div>
-													<button
-														disabled={true}
-														className="mx-[23px] my-2 cursor-pointer border-2 border-white p-1 tagbtn"
-													>
-														<AiFillTags />
-													</button>
-												</div>
+										<div className="md:grid grid-cols-2 ">
+
+
+										<Zoom>
+											<div className="flex my-auto">
+												
+												<Tippy content="Login To Delete  ">
+													<div className="  border-2 my-3 border-white p-1 cursor-pointer w-fit">
+														<AiFillDelete />
+													</div>
+
+												</Tippy>
+												<p className="mx-2 my-auto md:hidden ">Delete</p>
 											</div>
-										</Tippy>
+											</Zoom>
+
+
+
+											<Zoom>
+											<div className="flex">
+												<Tippy content="Login To Update">
+													<div className=" border-2 my-3 border-black invert p-1  cursor-pointer w-fit">
+														<GrUpdate className="" />
+													</div>
+												</Tippy>
+												<p className="mx-2 my-auto md:hidden ">Update</p>
+											</div>
+											</Zoom>
+											<Zoom>
+											<div className="flex">
+												<Tippy content="Login To Tag">
+
+													<div className="md:mx-[23px] my-3 md:my-0  cursor-pointer border-2 border-white w-fit p-1">
+
+														<AiFillTags />
+													</div>
+
+												</Tippy>
+												<p className="mx-2 my-auto md:hidden ">Tag</p>
+											</div>
+											</Zoom>
+										</div>
+
 									</div>
 								</>
 							)}
@@ -539,32 +578,19 @@ export const AddUserComment = async (comment) => {
 
 
 export const useAddComment = () => {
-	
+
 	const queryClient = useQueryClient();
 	return useMutation(AddUserComment, {
 		onSuccess: () => {
+			queryClient.invalidateQueries(['AllComments'])
 			toast.success("Comment Added SuccesFully", {
 				position: toast.POSITION.TOP_LEFT,
 			});
-			
+
 		},
 		onError: (context) => {
 			toast.error("Couldnt Add Comment.Server Error");
 			queryClient.setQueryData(["AllComments"], context.previousData);
-		},
-		onMutate: async (newData) => {
-			await queryClient.cancelQueries(["AllComments"]);
-			const previousData = queryClient.getQueryData(["AllComments"]);
-			queryClient.setQueryData(["AllComments"], (oldQueryData) => {
-				return [...oldQueryData, newData.commentelement];
-			});
-			return {
-				previousData,
-			};
-		},
-
-		onSettled: () => {
-			queryClient.invalidateQueries(["AllComments"]);
 		},
 	});
 };
@@ -611,7 +637,7 @@ const DeleteComment = async (values) => {
 
 
 const useDeleteComment = () => {
-	const {setIsOpen} = useContext(context)
+	const { setIsOpen } = useContext(context)
 	const queryClient = useQueryClient();
 	return useMutation(DeleteComment, {
 		onSuccess: () => {
@@ -625,9 +651,9 @@ const useDeleteComment = () => {
 			queryClient.setQueryData(["AllComments"], context.previousData);
 			setIsOpen(false)
 		},
-		
+
 	});
-	
+
 };
 
 
@@ -670,7 +696,7 @@ const UpdateComment = async (values) => {
 
 
 const useUpdateComment = () => {
-	const {setIsOpen1} = useContext(context)
+	const { setIsOpen1 } = useContext(context)
 	const queryClient = useQueryClient();
 	return useMutation(UpdateComment, {
 		onSuccess: () => {

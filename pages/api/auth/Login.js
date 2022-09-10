@@ -26,7 +26,8 @@ export default async function Login(req,res){
                     "username": response.data.username,
                     "email": response.data.email,
                     "last_login_time": response.data.last_login_time,
-                    "last_login_date": response.data.last_login_date
+                    "last_login_date": response.data.last_login_date,
+                    "color":response.data.color
                 }), {
                 httpOnly:false,
                 secure: true,
@@ -41,7 +42,8 @@ export default async function Login(req,res){
             "username": response.data.username,
             "email": response.data.email,
             "last_login_time": response.data.last_login_time,
-            "last_login_date": response.data.last_login_date
+            "last_login_date": response.data.last_login_date,
+            "color":response.data.color
         })
     }).catch((e)=>{
         

@@ -35,7 +35,7 @@ export const ContextProvider = ({children})=>{
         setIsOpen1:setIsOpen1,
     
     }
-    console.log('user',user);
+    
     return (
         <context.Provider value = {contextData}>
             {children}

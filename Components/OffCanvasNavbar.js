@@ -34,7 +34,7 @@ export default function OffCanvasNavbar() {
                 <div className='my-5'>
                 
                 <div  className=' text-white mx-2 text-center flex flex-col justify-center '>
-                    <div id="userlogo"  className='py-2 rounded-full justify-self-center mx-auto  px-4 border-2 w-fit bg-rose-500 font-bold'>
+                    <div id="userlogo"  className={`py-2 rounded-full justify-self-center mx-auto  px-4 border-2 w-fit bg-rose-500 font-bold`}>
                         {user?user.username.slice(0,1):'G'}
                     </div>
                     <div className='p-3 break-all'>

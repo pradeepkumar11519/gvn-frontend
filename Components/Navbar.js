@@ -22,6 +22,7 @@ import OffCanvasNavbar, { CloseOffCanvasNavbar } from "./OffCanvasNavbar";
 
 export default function Navbar() {
 	const { user,Logout } = useContext(context)
+	console.log(user);
 	return (
 		<div id="Nav" className=" border-b-2 border-black w-auto">
 			<div className="grid grid-cols-[120px_auto_120px]">
@@ -109,7 +110,7 @@ export default function Navbar() {
 									}}>
 							<div className=" w-full text-start px-2 pr-5 my-auto">
 								<div className="grid grid-cols-2  px-2 ">
-									<div className="my-4 border-2 border-rose-600 bg-rose-600 text-white pb-2 rounded-full text-center">
+									<div className={`my-4 border-2 border-rose-600 bg-orange-600 text-white pb-2 rounded-full text-center`}>
 										{user.username.slice(0,1)}
 									</div>
 									<div className="flex justify-center my-auto border-2 cursor-pointer border-black mx-2 rounded-md" >

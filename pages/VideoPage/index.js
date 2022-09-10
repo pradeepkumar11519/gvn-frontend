@@ -2,9 +2,19 @@ import { dehydrate, QueryClient } from '@tanstack/react-query'
 import React from 'react'
 import VideoImage from '../../Components/VideoImage'
 import axios  from 'axios';
+import Search from '../../Components/Search';
+
+
+
+
+
+
 export default function VideoPage(props) {
   return (
     <div>
+      <div className=''>
+        <Search/>
+      </div>
       <VideoImage/>
     </div>
   )
